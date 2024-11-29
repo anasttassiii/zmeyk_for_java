@@ -72,7 +72,7 @@ class Game extends Snake {
     public void input() {
         if (scanner.hasNext()) {
             String command = scanner.next();
-            command = command.trim().toUpperCase(); // Убираем пробелы и приводим к верхнему регистру
+            command = command.trim().toUpperCase();
             switch (command) {
                 case "W": dir = eDirection.UP; break;
                 case "S": dir = eDirection.DOWN; break;
@@ -82,12 +82,16 @@ class Game extends Snake {
                 case "LEVEL":
                     System.out.println("Choose difficulty (1- easy, 2- hard): ");
                     String level = scanner.next().trim();
-                    if (level.equals("1")) {
-                        System.out.println("Difficulty set to easy.");
-                    } else if (level.equals("2")) {
-                        System.out.println("Difficulty set to hard.");
-                    } else {
-                        System.out.println("Invalid choice. Default difficulty applied.");
+                    try {
+                        if (level.equals("1")) {
+                            System.out.println("Difficulty set to easy.");
+                        } else if (level.equals("2")) {
+                            System.out.println("Difficulty set to hard.");
+                        } else {
+                            throw new IllegalArgumentException("Invalid choice. Default difficulty applied.");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
                 default: break;
