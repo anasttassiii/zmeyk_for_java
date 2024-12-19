@@ -3,13 +3,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Game[] games = new Game[100];
+        AdvancedGame[] games = new AdvancedGame[100];
         int[] scores = new int[100];
         int gameCount = 0;
 
         for (int i = 0; i < 100; i++) {
-            games[i] = new Game();
-            while (!games[i].gameover && !games[i].gameset) {
+            games[i] = new AdvancedGame(); // Создание объекта производного класса
+            while (!games[i].isGameOver() && !games[i].isGameSet()) {
                 games[i].draw();
                 games[i].input();
                 games[i].logic();
@@ -22,7 +22,7 @@ public class Main {
             System.out.println("Game Over for game " + (i + 1) + "! Your score: " + games[i].getScore());
             scores[i] = games[i].getScore();
             gameCount++;
-            if (games[i].gameset) break;
+            if (games[i].isGameSet()) break;
         }
 
         // Сортировка результатов
@@ -46,6 +46,6 @@ public class Main {
             System.out.println("Score " + scoreToFind + " not found in the list.");
         }
 
-        System.out.println("Total number of games created: " + Game.getGameCount());
+        System.out.println("Total number of games created: " + AdvancedGame.getGameCount());
     }
 }

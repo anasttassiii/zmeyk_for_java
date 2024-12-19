@@ -2,14 +2,15 @@ import java.util.Random;
 import java.util.Scanner;
 
 class Game extends Snake {
-    public Direction dir;
-    public Score score;
-    public boolean gameover, gameset;
-    public int xHead, yHead, fruitX, fruitY;
-    private static int gameCount = 0;
+    protected Direction dir;
+    protected Score score;
+    protected boolean gameover, gameset;
+    protected int xHead, yHead, fruitX, fruitY;
+    protected static int gameCount = 0;
     private static final Random random = new Random();
 
     public Game() {
+        super(); // Вызов конструктора базового класса
         gameCount++;
         gameover = false;
         gameset = false;
@@ -27,6 +28,14 @@ class Game extends Snake {
 
     public int getScore() {
         return score.getScore();
+    }
+
+    public boolean isGameOver() {
+        return gameover;
+    }
+
+    public boolean isGameSet() {
+        return gameset;
     }
 
     public void draw() {
@@ -174,5 +183,14 @@ class Game extends Snake {
     private void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "score=" + getScore() +
+                ", gameover=" + gameover +
+                ", gameset=" + gameset +
+                '}';
     }
 }

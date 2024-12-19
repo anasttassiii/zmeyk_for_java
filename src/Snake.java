@@ -5,20 +5,14 @@ enum Direction { STOP, LEFT, RIGHT, UP, DOWN }
 class Score {
     private int score;
 
-    public Score() {
-        this.score = 0;
-    }
+    public Score() { this.score = 0; }
 
-    public void addScore(int value) {
-        score += value;
-    }
+    public void addScore(int value) { score += value; }
 
-    public int getScore() {
-        return score;
-    }
+    public int getScore() { return score; }
 }
 
-class Snake {
+abstract class Snake {
     protected int width;
     protected int height;
     protected int[] tailX = new int[100];
@@ -30,4 +24,6 @@ class Snake {
         this.height = 15;
         this.nTail = 0;
     }
+
+    public abstract String toString();
 }
