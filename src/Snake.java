@@ -1,29 +1,15 @@
-import java.util.Random;
-
-enum Direction { STOP, LEFT, RIGHT, UP, DOWN }
-
-class Score {
-    private int score;
-
-    public Score() { this.score = 0; }
-
-    public void addScore(int value) { score += value; }
-
-    public int getScore() { return score; }
-}
-
-abstract class Snake {
+public class Snake {
     protected int width;
     protected int height;
-    protected int[] tailX = new int[100];
-    protected int[] tailY = new int[100];
+    protected int[] tailX;
+    protected int[] tailY;
     protected int nTail;
 
     public Snake() {
         this.width = 20;
         this.height = 15;
-        this.nTail = 0;
+        this.tailX = new int[100];
+        this.tailY = new int[100];
+        nTail = 0;
     }
-
-    public abstract String toString();
 }
