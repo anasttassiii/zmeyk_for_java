@@ -4,13 +4,12 @@ import java.util.Random;
 
 enum eDirection { STOP, LEFT, RIGHT, UP, DOWN }
 
-public class Game extends Snake {
-    protected eDirection dir; // Измените на protected для доступа производных классов
-    protected Score score; // Измените на protected
-    protected boolean gameover, gameset; // Измените на protected
+public class Game extends Snake implements IGame {
+    protected eDirection dir; // Направление движения змеи
+    protected Score score;     // Счет игры
+    protected boolean gameover; // Флаг завершения игры
     protected int xHead, yHead, fruitX, fruitY;
     private static int gameCount;
-
     private List<Integer> history; // Добавлено для хранения истории игр
 
     public Game() {
@@ -18,7 +17,6 @@ public class Game extends Snake {
         Random rand = new Random();
         gameCount++;
         gameover = false;
-        gameset = false;
         dir = eDirection.STOP;
         xHead = (this.width / 2) - 1;
         yHead = (this.height / 2) - 1;
@@ -32,25 +30,26 @@ public class Game extends Snake {
         return gameCount;
     }
 
+    @Override
     public int getScore() {
         return score.getScore();
     }
 
+    @Override
+    public boolean isGameOver() {
+        return gameover;
+    }
+
+    @Override
     public void draw() {
-        // Clear the console
+        // Очистка консоли
         System.out.print('\u000C');
         drawHorizontalBorders();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (drawVerticalBorders(i, j)) {
-                    continue;
-                }
-                if (drawHeadOfSnake(i, j)) {
-                    continue;
-                }
-                if (drawFruit(i, j)) {
-                    continue;
-                }
+                if (drawVerticalBorders(i, j)) continue;
+                if (drawHeadOfSnake(i, j)) continue;
+                if (drawFruit(i, j)) continue;
                 drawSnakeTailOrSpace(i, j);
             }
             System.out.println();
@@ -101,11 +100,7 @@ public class Game extends Snake {
         if (!print) System.out.print(' '); // Пустое пространство
     }
 
-    public void input() {
-        // Эта часть кода будет обработана в другом методе
-        // Используйте Scanner для получения ввода
-    }
-
+    @Override
     public void logic() {
         tailStep();
         changeHeadPosition();
@@ -115,12 +110,13 @@ public class Game extends Snake {
         history.add(score.getScore()); // Сохраняем текущий счет в историю
     }
 
-    public void tailStep() {
+    private void tailStep() {
         int prevX = tailX[0];
         int prevY = tailY[0];
         int prev2X, prev2Y;
         tailX[0] = xHead;
         tailY[0] = yHead;
+
         for (int i = 1; i < nTail; i++) {
             prev2X = tailX[i];
             prev2Y = tailY[i];
@@ -131,7 +127,7 @@ public class Game extends Snake {
         }
     }
 
-    public void changeHeadPosition() {
+    private void changeHeadPosition() {
         switch (dir) {
             case LEFT: xHead--; break;
             case RIGHT: xHead++; break;
@@ -140,20 +136,20 @@ public class Game extends Snake {
         }
     }
 
-    public void meetingWithBorder() {
+    private void meetingWithBorder() {
         if (xHead >= width - 1) xHead = 0;
         else if (xHead < 0) xHead = width - 2;
         if (yHead >= height) yHead = 0;
         else if (yHead < 0) yHead = height - 1;
     }
 
-    public void headToTailCheck() {
+    private void headToTailCheck() {
         for (int i = 0; i < nTail; i++) {
             if (tailX[i] == xHead && tailY[i] == yHead) gameover = true;
         }
     }
 
-    public boolean checkTailAndFruitCoincidence() {
+    private boolean checkTailAndFruitCoincidence() {
         for (int i = 0; i < nTail; i++) {
             if (tailX[i] == fruitX && tailY[i] == fruitY) {
                 return true;
@@ -162,7 +158,7 @@ public class Game extends Snake {
         return false;
     }
 
-    public void eatingFruits() {
+    private void eatingFruits() {
         if (xHead == fruitX && yHead == fruitY) {
             score.addScore(10);
             fruitX = new Random().nextInt(this.width - 1);

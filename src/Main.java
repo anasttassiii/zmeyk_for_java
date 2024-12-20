@@ -5,12 +5,11 @@ public class Main {
         AdvancedGame game = new AdvancedGame();
         Scanner scanner = new Scanner(System.in);
 
-        while (!game.gameover) {
+        while (!game.isGameOver()) {
             game.draw();
             System.out.print("Enter your move (w/a/s/d to move, x to exit): ");
-            char input = scanner.nextLine().charAt(0);
+            char input = scanner.nextLine().charAt(0); // Обработка ввода пользователя
 
-            // Обработка ввода пользователя
             switch (input) {
                 case 'a': game.dir = eDirection.LEFT; break;
                 case 'd': game.dir = eDirection.RIGHT; break;
